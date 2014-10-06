@@ -171,8 +171,54 @@ class Api {
 	 * @return string - pay link
 	 */
 	public function generate_product_pay_link($product_id, array $optional_arguments = array()) {
-		$method = new \Paddle\Method\Product_GeneratePayLink();
-		$data = $method->generate_product_pay_link($product_id, $optional_arguments);
+		$data = array();
+		$data['product_id'] = \Paddle\Filters::filter_product_id($product_id);
+		if (isset($optional_arguments['title'])) {
+			$data['title'] = \Paddle\Filters::filter_title($optional_arguments['title']);
+		}
+		if (isset($optional_arguments['image_url'])) {
+			$data['image_url'] = \Paddle\Filters::filter_image_url($optional_arguments['image_url']);
+		}
+		if (isset($optional_arguments['price'])) {
+			$data['price'] = \Paddle\Filters::filter_price($optional_arguments['price']);
+		}
+		if (isset($optional_arguments['return_url'])) {
+			$data['return_url'] = \Paddle\Filters::filter_return_url($optional_arguments['return_url']);
+		}
+		if (isset($optional_arguments['discountable'])) {
+			$data['discountable'] = \Paddle\Filters::filter_discountable($optional_arguments['discountable']);
+		}
+		if (isset($optional_arguments['coupon_code'])) {
+			$data['discountable'] = 1;
+		}
+		if (isset($optional_arguments['locker_visible'])) {
+			$data['locker_visible'] = \Paddle\Filters::filter_locker_visible($optional_arguments['locker_visible']);
+		}
+		if (isset($optional_arguments['quantity_variable'])) {
+			$data['quantity_variable'] = \Paddle\Filters::filter_quantity_variable($optional_arguments['quantity_variable']);
+		}
+		if (isset($optional_arguments['paypal_cancel_url'])) {
+			$data['paypal_cancel_url'] = \Paddle\Filters::filter_paypal_cancel_url($optional_arguments['paypal_cancel_url']);
+		}
+		if (isset($optional_arguments['expires'])) {
+			$data['expires'] = \Paddle\Filters::filter_expires($optional_arguments['expires']);
+		}
+		if (isset($optional_arguments['is_popup'])) {
+			$data['is_popup'] = \Paddle\Filters::filter_is_popup($optional_arguments['is_popup']);
+		}
+		if (isset($optional_arguments['parent_url'])) {
+			$data['parent_url'] = \Paddle\Filters::filter_parent_url($optional_arguments['parent_url']);
+		}
+		if (isset($optional_arguments['affiliates'])) {
+			$data['affiliates'] = \Paddle\Filters::filter_affiliates($optional_arguments['affiliates']);
+		}
+		if (isset($optional_arguments['stylesheets'])) {
+			$data['stylesheets'] = \Paddle\Filters::filter_stylesheets($optional_arguments['stylesheets']);
+		}
+		// check if webhook_url is provided (forbidden)
+		if (isset($optional_arguments['webhook_url'])) {
+			throw new \InvalidArgumentException(\Paddle\Api::ERR_314, 314);
+		}
 		$response = $this->http_call('/product/generate_pay_link', 'POST', $data);
 		return $response['url'];
 	}
@@ -197,8 +243,50 @@ class Api {
 	 * @return string - pay link
 	 */
 	public function generate_custom_product_pay_link($title, $price, $image_url, $webhook_url, array $optional_arguments) {
-		$method = new \Paddle\Method\Product_GeneratePayLink();
-		$data = $method->generate_custom_product_pay_link($title, $price, $image_url, $webhook_url, $optional_arguments);
+		$data = array();
+		$data['title'] = \Paddle\Filters::filter_title($title);
+		$data['price'] = \Paddle\Filters::filter_price($price);
+		$data['image_url'] = \Paddle\Filters::filter_image_url($image_url);
+		$data['webhook_url'] = \Paddle\Filters::filter_image_url($webhook_url);
+		if (isset($optional_arguments['return_url'])) {
+			$data['return_url'] = \Paddle\Filters::filter_return_url($optional_arguments['return_url']);
+		}
+		if (isset($optional_arguments['locker_visible'])) {
+			$data['locker_visible'] = \Paddle\Filters::filter_locker_visible($optional_arguments['locker_visible']);
+		}
+		if (isset($optional_arguments['quantity_variable'])) {
+			$data['quantity_variable'] = \Paddle\Filters::filter_quantity_variable($optional_arguments['quantity_variable']);
+		}
+		if (isset($optional_arguments['paypal_cancel_url'])) {
+			$data['paypal_cancel_url'] = \Paddle\Filters::filter_paypal_cancel_url($optional_arguments['paypal_cancel_url']);
+		}
+		if (isset($optional_arguments['expires'])) {
+			$data['expires'] = \Paddle\Filters::filter_expires($optional_arguments['expires']);
+		}
+		if (isset($optional_arguments['is_popup'])) {
+			$data['is_popup'] = \Paddle\Filters::filter_is_popup($optional_arguments['is_popup']);
+		}
+		if (isset($optional_arguments['parent_url'])) {
+			$data['parent_url'] = \Paddle\Filters::filter_parent_url($optional_arguments['parent_url']);
+		}
+		if (isset($optional_arguments['affiliates'])) {
+			$data['affiliates'] = \Paddle\Filters::filter_affiliates($optional_arguments['affiliates']);
+		}
+		if (isset($optional_arguments['stylesheets'])) {
+			$data['stylesheets'] = \Paddle\Filters::filter_stylesheets($optional_arguments['stylesheets']);
+		}
+		// discountable (forbidden)
+		if (isset($optional_arguments['discountable'])) {
+			throw new \InvalidArgumentException(\Paddle\Api::ERR_316, 316);
+		}
+		// coupon_code (forbidden)
+		if (isset($optional_arguments['coupon_code'])) {
+			throw new \InvalidArgumentException(\Paddle\Api::ERR_317, 317);
+		}
+		// check product_id (forbidden)
+		if (isset($optional_arguments['product_id'])) {
+			throw new \InvalidArgumentException(\Paddle\Api::ERR_318, 318);
+		}
 		$response = $this->http_call('/product/generate_pay_link', 'POST', $data);
 		return $response['url'];
 	}
@@ -209,8 +297,8 @@ class Api {
 	 * @return string - license code
 	 */
 	public function generate_license($product_id) {
-		$method = new \Paddle\Method\Product_GenerateLicense();
-		$data = $method->generate_license($product_id);
+		$data = array();
+		$data['product_id'] = \Paddle\Filters::filter_product_id($product_id);
 		$response = $this->http_call('/product/generate_license', 'POST', $data);
 		return $response['license_code'];
 	}
@@ -232,8 +320,9 @@ class Api {
 	 * - string 'icon' - image of the product
 	 */
 	public function get_products($limit = 1, $offset = 0) {
-		$method = new \Paddle\Method\Product_GetProducts();
-		$data = $method->get_products($limit, $offset);
+		$data = array();
+		$data['limit'] = \Paddle\Filters::filter_limit($limit);
+		$data['offset'] = \Paddle\Filters::filter_offset($offset);
 		return $this->http_call('/product/get_products', 'POST', $data);
 	}
 
@@ -246,8 +335,10 @@ class Api {
 	 * - string 'email' - email address of the customer
 	 */
 	public function generate_customers_report($product_id = null) {
-		$method = new \Paddle\Method\Report_Customers();
-		$data = $method->generate_customers_report($product_id);
+		$data = array();
+		if (isset($product_id)) {
+			$data['product_id'] = \Paddle\Filters::filter_product_id($product_id);
+		}
 		return $this->http_call('/report/customers', 'GET', $data);
 	}
 
@@ -262,8 +353,10 @@ class Api {
 	 * - string 'license_code' - license code
 	 */
 	public function generate_sent_licenses_report($product_id = null) {
-		$method = new \Paddle\Method\Report_SentLicenses();
-		$data = $method->generate_sent_licenses_report($product_id);
+		$data = array();
+		if (isset($product_id)) {
+			$data['product_id'] = \Paddle\Filters::filter_product_id($product_id);
+		}
 		return $this->http_call('/report/sent_licenses', 'GET', $data);
 	}
 
@@ -281,8 +374,16 @@ class Api {
 	 * - string 'sale_date' - sale date
 	 */
 	public function generate_orders_report($product_id = null, $start_timestamp = null, $end_timestamp = null) {
-		$method = new \Paddle\Method\Report_Orders();
-		$data = $method->generate_orders_report($product_id, $start_timestamp, $end_timestamp);
+		$data = array();
+		if (isset($product_id)) {
+			$data['product_id'] = \Paddle\Filters::filter_product_id($product_id);
+		}
+		if (isset($start_timestamp)) {
+			$data['from_date'] = \Paddle\Filters::filter_start_timestamp($start_timestamp);
+		}
+		if (isset($end_timestamp)) {
+			$data['to_date'] = \Paddle\Filters::filter_end_timestamp($end_timestamp);
+		}
 		return $this->http_call('/report/orders', 'GET', $data);
 	}
 
@@ -300,8 +401,16 @@ class Api {
 	 * - string 'customer_email' - customer email
 	 */
 	public function generate_license_activations_report($product_id = null, $start_timestamp = null, $end_timestamp = null) {
-		$method = new \Paddle\Method\Report_LicenseActivations();
-		$data = $method->generate_license_activations_report($product_id, $start_timestamp, $end_timestamp);
+		$data = array();
+		if (isset($product_id)) {
+			$data['product_id'] = \Paddle\Filters::filter_product_id($product_id);
+		}
+		if (isset($start_timestamp)) {
+			$data['from_date'] = \Paddle\Filters::filter_start_timestamp($start_timestamp);
+		}
+		if (isset($end_timestamp)) {
+			$data['to_date'] = \Paddle\Filters::filter_end_timestamp($end_timestamp);
+		}
 		return $this->http_call('/report/license_activations', 'GET', $data);
 	}
 
@@ -314,8 +423,9 @@ class Api {
 	 * - string 'vendor_auth_code'
 	 */
 	public function generate_auth_code($vendor_email, $vendor_password) {
-		$method = new \Paddle\Method\User_Auth();
-		$data = $method->generate_auth_code($vendor_email, $vendor_password);
+		$data = array();
+		$data['email'] = \Paddle\Filters::filter_email($vendor_email);
+		$data['password'] = $vendor_password;
 		return $this->http_call('/user/auth', 'POST', $data);
 	}
 
@@ -327,8 +437,10 @@ class Api {
 	 * @return string
 	 */
 	public function register_external_application($application_name, $application_description, $application_icon_url) {
-		$method = new \Paddle\Method\User_Getcode();
-		$data = $method->register_external_application($application_name, $application_description, $application_icon_url);
+		$data = array();
+		$data['name'] = $application_name;
+		$data['description'] = $application_description;
+		$data['icon'] = \Paddle\Filters::filter_application_icon_url($application_icon_url);
 		$response = $this->http_call('/user/getcode', 'POST', $data);
 		return $response['code'];
 	}
