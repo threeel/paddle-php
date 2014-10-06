@@ -60,4 +60,29 @@ class Test_Case extends PHPUnit_Framework_TestCase {
 		);
 	}
 
+	/**
+	 * Call protected/private method of a class
+	 * @param type $object instantiated object that we will run method on
+	 * @param type $methodName method name to call
+	 * @param array $parameters array of parameters to pass into method
+	 */
+	protected function call_private_method($object, $methodName, array $parameters = array()) {
+		$reflection = new \ReflectionClass(get_class($object));
+		$method = $reflection->getMethod($methodName);
+		$method->setAccessible(true);
+		$method->invokeArgs($object, $parameters);
+	}
+
+	/**
+	 * Set protected/private field of a class
+	 * @param object $object instantiated object that we will run method on
+	 * @param string $field_name field name to set
+	 * @param mixed $field_value field value to set
+	 */
+	protected function set_private_field($object, $field_name, $field_value) {
+		$reflector = new ReflectionProperty(get_class($object), $field_name);
+		$reflector->setAccessible(true);
+		$reflector->setValue($object, $field_value);
+	}
+
 }

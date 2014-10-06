@@ -44,6 +44,7 @@ class Api {
 	const ERR_201 = 'Incorrect HTTP response code: ';
 	const ERR_202 = 'Incorrect API response: ';
 	const ERR_203 = 'Timeout must be a positive integer';
+	const ERR_204 = 'Vendor credentials not provided';
 
 	/*
 	 * 3XX - validation errors
@@ -78,7 +79,7 @@ class Api {
 		if ($vendor_id && $vendor_auth_code) {
 			$this->set_vendor_credentials($vendor_id, $vendor_auth_code);
 		}
-		if ($timeout) {
+		if ($timeout !== null) {
 			$this->set_timeout($timeout);
 		}
 	}
@@ -107,7 +108,7 @@ class Api {
 	 */
 	private function http_call($path, $method, $parameters = array()) {
 		if (!$this->vendor_id || !$this->vendor_auth_code) {
-			throw new \Exception('Vendor not authorized');
+			throw new \Exception(self::ERR_204, 204);
 		}
 
 		// add auth data to parameters and build http query string

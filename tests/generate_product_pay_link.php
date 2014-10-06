@@ -29,6 +29,17 @@ class Generate_Product_Pay_Link extends Test_Case {
 		// check if valid paylink was returned by api
 		$url = $this->api->generate_product_pay_link($this->product_id, $data);
 		$this->assertEquals($url, filter_var($url, FILTER_VALIDATE_URL));
+
+		$data = array(
+			'discountable' => false,
+			'locker_visible' => false,
+			'quantity_variable' => false,
+			'is_popup' => false
+		);
+
+		// check if valid paylink was returned by api
+		$url = $this->api->generate_product_pay_link($this->product_id, $data);
+		$this->assertEquals($url, filter_var($url, FILTER_VALIDATE_URL));
 	}
 
 	public function invalid_product_id_data_provider() {
@@ -213,7 +224,7 @@ class Generate_Product_Pay_Link extends Test_Case {
 
 	public function ivnalid_array_affiliates_data_provider() {
 		return array(
-			array(array(1))
+			array(array('foo' => null))
 		);
 	}
 
@@ -241,7 +252,7 @@ class Generate_Product_Pay_Link extends Test_Case {
 	/**
 	 * @dataProvider not_array_stylesheets_data_provider
 	 */
-	public function not_array_invalid_stylesheets($stylesheets) {
+	public function test_not_array_invalid_stylesheets($stylesheets) {
 		$data = array(
 			'stylesheets' => $stylesheets
 		);

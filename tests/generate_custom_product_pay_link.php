@@ -174,4 +174,24 @@ class Generate_Custom_Product_Pay_Link extends Test_Case {
 		$this->api->generate_custom_product_pay_link($this->title, $this->price, $this->image_url, $this->webhook_url, $data);
 	}
 
+	public function test_forbidden_optional_arguments() {
+		$this->setExpectedException('InvalidArgumentException', \Paddle\Api::ERR_316, 316);
+		$data = array(
+			'discountable' => true
+		);
+		$this->api->generate_custom_product_pay_link($this->title, $this->price, $this->image_url, $this->webhook_url, $data);
+
+		$this->setExpectedException('InvalidArgumentException', \Paddle\Api::ERR_317, 317);
+		$data = array(
+			'coupon_code' => true
+		);
+		$this->api->generate_custom_product_pay_link($this->title, $this->price, $this->image_url, $this->webhook_url, $data);
+
+		$this->setExpectedException('InvalidArgumentException', \Paddle\Api::ERR_318, 318);
+		$data = array(
+			'product_id' => true
+		);
+		$this->api->generate_custom_product_pay_link($this->title, $this->price, $this->image_url, $this->webhook_url, $data);
+	}
+
 }
