@@ -15,7 +15,7 @@ You can install the library via Composer. Add this to your composer.json:
 ```javascript
 {
     "require": {
-        "paddle/php-api": "1.0.*"
+        "paddle/php-api": "1.*"
     }
 }
 ```
@@ -110,6 +110,8 @@ All methods can thrown the following exceptions of type \Exception:
  * code: 200 message: 'CURL error' 
  * code: 201 message: 'Incorrect HTTP response code' 
  * code: 202 message: 'Incorrect API response'
+ * code: 203 message: 'Timeout must be a positive integer'
+ * code: 204 message: 'Vendor credentials not provided'
 
 ## Available methods
 
