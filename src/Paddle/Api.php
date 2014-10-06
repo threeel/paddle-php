@@ -255,7 +255,7 @@ class Api {
 		$data['title'] = \Paddle\Filters::filter_title($title);
 		$data['price'] = \Paddle\Filters::filter_price($price);
 		$data['image_url'] = \Paddle\Filters::filter_image_url($image_url);
-		$data['webhook_url'] = \Paddle\Filters::filter_image_url($webhook_url);
+		$data['webhook_url'] = \Paddle\Filters::filter_webhook_url($webhook_url);
 		if (isset($optional_arguments['return_url'])) {
 			$data['return_url'] = \Paddle\Filters::filter_return_url($optional_arguments['return_url']);
 		}

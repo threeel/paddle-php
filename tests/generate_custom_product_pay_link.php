@@ -174,19 +174,31 @@ class Generate_Custom_Product_Pay_Link extends Test_Case {
 		$this->api->generate_custom_product_pay_link($this->title, $this->price, $this->image_url, $this->webhook_url, $data);
 	}
 
-	public function test_forbidden_optional_arguments() {
+	/**
+	 * @dataProvider invalid_url_data_provider
+	 */
+	public function test_invalid_webhook_url($url) {
+		$this->setExpectedException('InvalidArgumentException', \Paddle\Api::ERR_315, 315);
+		$this->api->generate_custom_product_pay_link($this->title, $this->price, $this->image_url, $url, array());
+	}
+
+	public function test_forbidden_discountable() {
 		$this->setExpectedException('InvalidArgumentException', \Paddle\Api::ERR_316, 316);
 		$data = array(
 			'discountable' => true
 		);
 		$this->api->generate_custom_product_pay_link($this->title, $this->price, $this->image_url, $this->webhook_url, $data);
+	}
 
+	public function test_forbidden_coupon_code() {
 		$this->setExpectedException('InvalidArgumentException', \Paddle\Api::ERR_317, 317);
 		$data = array(
 			'coupon_code' => true
 		);
 		$this->api->generate_custom_product_pay_link($this->title, $this->price, $this->image_url, $this->webhook_url, $data);
+	}
 
+	public function test_forbidden_product_id() {
 		$this->setExpectedException('InvalidArgumentException', \Paddle\Api::ERR_318, 318);
 		$data = array(
 			'product_id' => true
