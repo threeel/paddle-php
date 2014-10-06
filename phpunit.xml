@@ -11,6 +11,7 @@
 >
 	<testsuites>
 		<testsuite name="API Test Suite">
+			<file>./tests/common.php</file>
 			<file>./tests/generate_product_pay_link.php</file>
 			<file>./tests/generate_custom_product_pay_link.php</file>
 			<file>./tests/generate_license.php</file>

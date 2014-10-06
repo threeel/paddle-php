@@ -43,6 +43,7 @@ class Api {
 	const ERR_200 = 'CURL error: ';
 	const ERR_201 = 'Incorrect HTTP response code: ';
 	const ERR_202 = 'Incorrect API response: ';
+	const ERR_203 = 'Timeout must be a positive integer';
 
 	/*
 	 * 3XX - validation errors
@@ -78,7 +79,7 @@ class Api {
 			$this->set_vendor_credentials($vendor_id, $vendor_auth_code);
 		}
 		if ($timeout) {
-			$this->timeout = $timeout;
+			$this->set_timeout($timeout);
 		}
 	}
 
@@ -88,7 +89,13 @@ class Api {
 	}
 
 	public function set_timeout($value) {
-		$this->timeout = $value;
+		if (
+			(!filter_var($value, FILTER_VALIDATE_INT, array('options' => array('min_range' => 1))) || !is_numeric($value))
+		) {
+			throw new \InvalidArgumentException(self::ERR_203, 203);
+		} else {
+			$this->timeout = $value;
+		}
 	}
 
 	/**
