@@ -79,7 +79,7 @@ class Filters {
 		} else if ($value < time()) {
 			throw new \InvalidArgumentException(\Paddle\Api::ERR_308, 308);
 		} else {
-			return date('Y-m-d H:i:s', $value);
+			return date('Y-m-d', $value);
 		}
 	}
 
