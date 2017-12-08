@@ -15,41 +15,9 @@ You can install the library via Composer. Add this to your composer.json:
 ```javascript
 {
     "require": {
-        "paddle/php-api": "1.*"
+        "tuxxx128/paddle-php-api": "1.*"
     }
 }
-```
-
-Then install via:
-
-```
-composer.phar install
-```
-
-To use the library, either user Composer's autoload:
-
-```php
-require_once('vendor/autoload.php');
-```
-
-Or manually:
-
-```php
-require_once('/path/to/library/autoload.php');
-```
-
-## Manual Installation
-
-Obtain the latest version of the Paddle library with:
-
-```
-git clone https://github.com/PaddleHQ/paddle-php
-```
-
-To use the library, add the following to your PHP script:
-
-```php
-require_once('/path/to/library/autoload.php');
 ```
 
 ## Getting Started
@@ -57,7 +25,7 @@ require_once('/path/to/library/autoload.php');
 To interact with Paddle API you need to create an API object, and authorize using vendor_id / vendor_api_key:
 
 ```php
-$api = new \Paddle\Api();
+$api = new \Paddle\Api;
 $api->authorize_vendor($vendor_id, $vendor_auth_code);
 ```
 
